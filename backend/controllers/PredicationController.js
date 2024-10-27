@@ -1,5 +1,6 @@
 const { PythonShell } = require('python-shell');
 const User = require('../models/User'); // Assuming you're using a User model to manage user data
+const Domain = require('../models/Domain'); // Assuming you have a Domain model to manage domains and subdomains
 
 exports.predict = async (req, res) => {
     const userData = req.body; 
@@ -51,25 +52,37 @@ exports.predict = async (req, res) => {
             const recommendation = message; // Assuming `message` directly contains the recommendation string
 
             try {
+                // Fetch the subdomain using the recommendation (domain name)
+                const domainName = recommendation.replace(/_/g, ' '); // In case of underscore, replace with space
+                const foundDomain = await Domain.findOne({ domain: domainName });
+
+                if (!foundDomain) {
+                    return res.status(404).json({
+                        success: false,
+                        message: 'Domain not found'
+                    });
+                }
+
                 // Update the user profile using their email
                 await User.findOneAndUpdate(
                     { email }, // Find the user by email
-                    { isRecommended: true, recomendation: recommendation }, // Update fields
+                    { isRecommended: true, recomendation: domainName }, // Update fields
                     { new: true } // Return the updated document
                 );
 
-                // Send the prediction result to the frontend
+                // Send the prediction result along with the domain and subdomain information to the frontend
                 return res.status(200).json({
                     success: true,
                     message: "Prediction successful",
-                    prediction: recommendation
+                    prediction: recommendation,
+                    domain: foundDomain // Include the domain and subdomain info
                 });
 
             } catch (updateError) {
-                console.error('Error updating user:', updateError);
+                console.error('Error updating user or fetching domain:', updateError);
                 return res.status(500).json({
                     success: false,
-                    message: "Failed to update user recommendation",
+                    message: "Failed to update user recommendation or fetch domain",
                     error: updateError.message
                 });
             }

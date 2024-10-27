@@ -32,7 +32,8 @@ app.use("/api/v1/auth", userRoutes);
 app.use("/api/v1/profile", profileRoutes);
 app.use("/api/v1/reach", contactUsRoute);
 app.use("/api/v1/prediction", predict);
-app.use("/api/v1/domain", domainRoutes);
+// app.use("/api/v1/domain", domainRoutes);
+
 // Default route
 app.get("/", (req, res) => {
     return res.json({

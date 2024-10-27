@@ -7,6 +7,7 @@ const initialState = {
     assessment3: {},
   },
   loading: false,
+  domainData: null,
 };
 
 const assessmentSlice = createSlice({
@@ -20,9 +21,12 @@ const assessmentSlice = createSlice({
     setLoading(state, action) {
       state.loading = action.payload;
     },
+    setdomainData(state, action) {
+      state.domainData = action.payload;
+    },
   },
 });
 
-export const { setAssessmentData, setLoading } = assessmentSlice.actions;
+export const { setAssessmentData, setLoading ,setdomainData} = assessmentSlice.actions;
 
 export default assessmentSlice.reducer;
