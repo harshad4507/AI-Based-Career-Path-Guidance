@@ -40,6 +40,10 @@ const userSchema = new mongoose.Schema(
 		recomendation: {
 			type: String,
 		},
+		resources: {
+			type : mongoose.Schema.Types.ObjectId,
+			ref : "Resource"
+		},
 	},
 	{ timestamps: true }
 );

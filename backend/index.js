@@ -8,7 +8,8 @@ const userRoutes = require("./routes/user");
 const profileRoutes = require("./routes/profile");
 const contactUsRoute = require("./routes/Contact");
 const predict = require("./routes/prediction");
-const domainRoutes = require("./routes/domain");
+const resource = require("./routes/Resource");
+const jobInsights = require("./routes/jobInsights");
 
 dotenv.config();
 
@@ -32,8 +33,8 @@ app.use("/api/v1/auth", userRoutes);
 app.use("/api/v1/profile", profileRoutes);
 app.use("/api/v1/reach", contactUsRoute);
 app.use("/api/v1/prediction", predict);
-// app.use("/api/v1/domain", domainRoutes);
-
+app.use("/api/v1/resource", resource);
+app.use("/api/v1/jobInsights",jobInsights)
 // Default route
 app.get("/", (req, res) => {
     return res.json({

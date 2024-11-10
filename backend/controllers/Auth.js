@@ -12,97 +12,52 @@ require("dotenv").config()
 
 exports.signup = async (req, res) => {
   try {
-    // Destructure fields from the request body
-    const {
-      firstName,
-      lastName,
-      email,
-      password,
-      confirmPassword,
-      otp,
-    } = req.body;
+    const { firstName, lastName, email, password, confirmPassword, otp } = req.body;
 
-    // Check if All Details are provided
-    if (!firstName || !lastName || !email || !password || !confirmPassword  || !otp) {
-      return res.status(400).json({
-        success: false,
-        message: "All Fields are required.",
-      });
+    // Validate required fields
+    if (!firstName || !lastName || !email || !password || !confirmPassword || !otp) {
+      return res.status(400).json({ success: false, message: "All Fields are required." });
     }
 
-    // Check if password and confirm password match
+    // Check password match
     if (password !== confirmPassword) {
-      return res.status(400).json({
-        success: false,
-        message: "Password and Confirm Password do not match.",
-      });
+      return res.status(400).json({ success: false, message: "Password and Confirm Password do not match." });
     }
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({
-        success: false,
-        message: "User already exists. Please sign in to continue.",
-      });
+      return res.status(400).json({ success: false, message: "User already exists. Please sign in to continue." });
     }
 
     // Find the most recent OTP for the email
     const otpResponse = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
-    console.log("Retrieved OTP response: ", otpResponse);
-
-    if (otpResponse.length === 0) {
-      // OTP not found for the email
-      return res.status(400).json({
-        success: false,
-        message: "No OTP found for this email.",
-      });
-    } else if (otp !== otpResponse[0].otp) {
-      // Invalid OTP
-      return res.status(400).json({
-        success: false,
-        message: "The OTP is invalid. Please try again.",
-      });
+    if (otpResponse.length === 0 || otp !== otpResponse[0].otp) {
+      return res.status(400).json({ success: false, message: "Invalid OTP. Please try again." });
     }
 
-    // Hash the password
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create the Additional Profile For User
-    const profileDetails = await Profile.create({
-      gender: null,
-      dateOfBirth: null,
-      about: null,
-      contactNumber: null,
-      education: null,
-    })
-    // Create the user
+    // Create user profile
+    const profileDetails = await Profile.create({ gender: null, dateOfBirth: null, about: null, contactNumber: null, education: null });
+
+    // Create user in the database
     const user = await User.create({
       firstName,
       lastName,
       email,
       password: hashedPassword,
       additionalDetails: profileDetails._id,
-      isRecommended : false,
+      isRecommended: false,
       recomendation: null,
     });
 
-    return res.status(201).json({
-      success: true,
-      user: {
-        id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-            },
-      message: "User registered successfully.",
-    });
+    // Return success response
+    return res.status(201).json({ success: true, user: { id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email }, message: "User registered successfully." });
   } catch (error) {
     console.error("Error during user registration:", error.message);
-    return res.status(500).json({
-      success: false,
-      message: "User cannot be registered. Please try again later.",
-    });
+    return res.status(500).json({ success: false, message: "User cannot be registered. Please try again later." });
   }
 };
 

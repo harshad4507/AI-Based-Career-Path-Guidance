@@ -28,6 +28,8 @@ import Assessement1 from "./components/core/Dashboard/Assessment/Assessment1"
 import Assessement2 from "./components/core/Dashboard/Assessment/Assessment2"
 import Assessement3 from "./components/core/Dashboard/Assessment/Assessment3"
 import YourRecomendation from "./components/core/Dashboard/YourRecomendation"
+import TopicsDisplay from "./components/core/Dashboard/TopicsDisplay"
+import Resoureces from "./components/core/Dashboard/Resoureces"
 
 function App() {
   const dispatch = useDispatch()
@@ -105,6 +107,8 @@ function App() {
           <Route path="dashboard/Assessment-page-2" element={<Assessement2 />} />
           <Route path="dashboard/Assessment-page-3" element={<Assessement3 />} />
           <Route path="dashboard/Recomendation" element={<YourRecomendation/>} />
+          <Route path="dashboard/Recomendation/See-Topics/:subdomain" element={<TopicsDisplay />} />
+          <Route path="dashboard/Resources/:subdomain" element = {<Resoureces/>}/>
         </Route>
 
         {/* 404 Page */}

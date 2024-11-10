@@ -4,7 +4,7 @@ import pickle
 import sys
 import json
 # Load the model and preprocessing objects from the .pkl file
-with open('C:/Users/DELL/Desktop/project/backend/controllers/model.pkl', 'rb') as f:
+with open('./controllers/model.pkl', 'rb') as f:
     model_data = pickle.load(f)
 
 # Extract components from the loaded dictionary

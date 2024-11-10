@@ -31,3 +31,8 @@ export const assessmentEndpoints = {
   SUBMIT_ASSESSMENT_API: BASE_URL + "/prediction/predict",
   GET_DOMAIN_DATA_API: BASE_URL + "/domain/getDomains",
 }
+
+export const resourcesEndpoints = {
+  GET_TOPICS_API: BASE_URL + "/resource/getTopics",
+  GET_RESOURCES_API: BASE_URL + "/resource/getAllDetails",
+}

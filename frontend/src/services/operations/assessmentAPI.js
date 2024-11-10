@@ -13,7 +13,7 @@ export function submitAssessment(formData,nevigate) {
       const toastId = toast.loading("Loading...");
       dispatch(setLoading(true));
       
-      try {
+      try{
         const response = await apiConnector("POST",SUBMIT_ASSESSMENT_API ,formData);  
         console.log("SUBMIT ASSESSMENT API RESPONSE............", response);
   

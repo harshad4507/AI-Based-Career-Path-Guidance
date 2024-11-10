@@ -6,14 +6,12 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 export default function YourRecommendation() {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const { user } = useSelector((state) => state.profile);
     const { domainData, isLoading } = useSelector((state) => state.assessment);
     const [selectedSubdomain, setSelectedSubdomain] = useState('');
     
     console.log("DOMAIN DATA............", domainData);
-    // Handle radio button change
     const handleRadioChange = (event) => {
         setSelectedSubdomain(event.target.value);
     };
@@ -21,11 +19,12 @@ export default function YourRecommendation() {
     // Handle navigation to topics
     const handleSeeTopicsClick = () => {
         if (selectedSubdomain) {
-            navigate(`/topics/${selectedSubdomain}`);
+            navigate(`/dashboard/Recomendation/See-Topics/${selectedSubdomain}`);
         } else {
             toast.error('Please select a subdomain to see the topics');
         }
     };
+    
 
     return (
         <>
