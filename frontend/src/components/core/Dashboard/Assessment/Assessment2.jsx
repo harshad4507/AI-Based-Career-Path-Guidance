@@ -1,9 +1,8 @@
-// Assessment2.js
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setAssessmentData } from '../../../../slices/assessmentSlice';
-
+import IconBtn from "../../../Common/IconBtn"
 const Assessment2 = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -35,52 +34,62 @@ const Assessment2 = () => {
     navigate('/dashboard/Assessment-page-3');
   };
 
-  // Slider component
-  const Slider = ({ value, onChange }) => {
+  const handleBack = () => {
+    navigate('/dashboard/Assessment-page-1'); // Ensure this path matches your route
+  };
+
+  const Slider = ({ skill, value, onChange }) => {
     return (
-      <input
-        type="range"
-        min="0"
-        max="10"
-        step="1"
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer"
-      />
+      <div className="relative p-2 w-full">
+        <span
+          className="absolute -top-4 left-0 text-sm font-semibold text-yellow-300"
+          style={{ left: `calc(${value * 10}% - 10px)` }}
+        >
+          {value}
+        </span>
+        <input
+          type="range"
+          min="0"
+          max="10"
+          step="1"
+          value={value}
+          onChange={(e) => onChange(Number(e.target.value))}
+          className="w-full h-2 rounded-lg appearance-none bg-gray-300 cursor-pointer"
+          style={{
+            
+            background: `linear-gradient(to right, #facc15 ${value * 10}%, #d1d5db ${value * 10}%)`,
+          }}
+        />
+      </div>
     );
   };
 
   return (
-    <form onSubmit={handleNext} className="font-serif pt-20 bg-gray-900 p-10">
-      <h1 className="text-2xl text-center text-orange-500 font-mono mb-6">
+    <form onSubmit={handleNext} className="my-10 text-white flex flex-col gap-y-10 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12">
+      <h1 className="text-3xl  font-semibold text-center text-white-100 mb-8">
         Know, Rate Yourself In Soft-Skills
       </h1>
 
-      {/* Rendering sliders for each skill */}
       {skills.map((skill) => (
-        <div key={skill} className="mb-6">
-          <label className="mb-1 text-sm text-white">{skill}</label>
+        <div key={skill} className="w-full">
+          <label className="block text-lg p-2 font-bold text-white mb-2">{skill}</label>
           <Slider
-            value={skillRatings[skill] || 0} // Default value is 0 if not rated yet
-            onChange={(value) => handleSkillChange(skill, value)} // Update rating on slider change
+            skill={skill}
+            value={skillRatings[skill] || 0}
+            onChange={(value) => handleSkillChange(skill, value)}
           />
         </div>
       ))}
 
-      <div className="flex justify-end gap-2">
+      <div className="flex justify-end w-full mt-6 space-x-4">
         <button
           type="button"
-          onClick={() => navigate('/assessment1')}
-          className="cursor-pointer rounded-md bg-gray-700 py-2 px-5 font-semibold text-white"
+          onClick={handleBack}
+          className="px-4 py-2 bg-gray-700 rounded-md text-white font-medium hover:bg-gray-600"
         >
           Back
         </button>
-        <button
-          type="submit"
-          className="cursor-pointer rounded-md border py-2 px-5 border-yellow-50 bg-yellow-50"
-        >
-          Next
-        </button>
+       <IconBtn type="submit" text="Next"/>
       </div>
     </form>
   );

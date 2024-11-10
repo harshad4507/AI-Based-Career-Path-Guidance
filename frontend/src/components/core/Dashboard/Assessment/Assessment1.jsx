@@ -1,8 +1,8 @@
-// Assessment1.js
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setAssessmentData } from '../../../../slices/assessmentSlice';
+import IconBtn from "../../../Common/IconBtn"
 
 const Assessment1 = () => {
   const [formData, setFormData] = useState({
@@ -72,10 +72,16 @@ const Assessment1 = () => {
   };
 
   return (
-    <form onSubmit={handleNext} className="mt-6 flex w-full flex-col gap-y-4 p-4 bg-gray-800 rounded-md shadow-md">
+    <form
+      onSubmit={handleNext}
+      className="my-10 text-white flex flex-col gap-y-10 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12"
+    >
+      <div>
+        <h2 className='font-bold text-3xl text-white-100'>Lets Start The  Assessement by knowing your Skills</h2>
+      </div>
       {/* CGPA Input */}
-      <div className="flex flex-col">
-        <label className="mb-1 text-sm leading-5 text-white">CGPA</label>
+      <div className="flex flex-col w-full ">
+        <label className="mb-1 text-pure-greys-100 font-bold text-lg">CGPA</label>
         <input
           placeholder="Enter CGPA (0.0 - 10.0)"
           value={formData.cgpa}
@@ -85,59 +91,59 @@ const Assessment1 = () => {
           step="0.1"
           min="0"
           max="10"
-          className={`p-2 border rounded-md focus:outline-none ${error ? 'border-red-500' : 'border-gray-300'} focus:ring-2 focus:ring-blue-500`}
+          className="form-style"
         />
         {error && <span className="text-red-500 text-sm">{error}</span>}
       </div>
 
       {/* Course Status Radio */}
-      <div className="flex flex-col">
-        <label className="mb-1 text-sm leading-5 text-white">Course Status</label>
-        <div className="flex flex-wrap">
+      <div className="flex flex-col w-full">
+        <label className="mb-1 font-bold text-pure-greys-100 text-lg  ">Course Status</label>
+        <div className="flex space-x-4 p-2">
           {courseStatusOptions.map((option) => (
-            <label key={option.value} className="mr-4 flex items-center text-white">
+            <label key={option.value} className="flex items-center cursor-pointer space-x-2">
               <input
                 type="radio"
                 name="courseStatus"
                 value={option.value}
                 checked={formData.courseStatus === option.value}
                 onChange={handleOnChange}
-                className="mr-2"
+                className=" focus:ring-0 focus:ring-offset-0 checked:bg-yellow-300"
               />
-              {option.label}
+              <span>{option.label}</span>
             </label>
           ))}
         </div>
       </div>
 
       {/* Academic Achievements */}
-      <div className="flex flex-col">
-        <label className="mb-1 text-sm leading-5 text-white">Academic Achievements</label>
-        <div className="flex flex-wrap">
+      <div className="flex flex-col w-full">
+        <label className="mb-1 text-pure-greys-100 font-bold text-lg">Academic Achievements</label>
+        <div className="flex space-x-4">
           {achievementOptions.map((option) => (
-            <label key={option.value} className="mr-4 flex items-center text-white">
+            <label key={option.value} className="flex cursor-pointer items-center space-x-2">
               <input
                 type="radio"
                 name="academicAchievement"
                 value={option.value}
                 checked={formData.academicAchievement === option.value}
                 onChange={handleOnChange}
-                className="mr-2"
+                className=" focus:ring-0 focus:ring-offset-0 checked:bg-yellow-500"
               />
-              {option.label}
+              <span>{option.label}</span>
             </label>
           ))}
         </div>
       </div>
 
       {/* Personal Interest Dropdown */}
-      <div className="flex flex-col">
-        <label className="mb-1 text-sm leading-5 text-white">Personal Interest</label>
+      <div className="flex flex-col w-full">
+        <label className="mb-1 text-pure-greys-100  font-bold text-lg">Personal Interest</label>
         <select
           value={formData.personalInterest}
           onChange={handleOnChange}
           name="personalInterest"
-          className="p-2 border rounded-md focus:outline-none border-gray-300 focus:ring-2 focus:ring-blue-500"
+          className="form-style"
         >
           <option value="">Select Personal Interest</option>
           {personalInterestOptions.map((interest, index) => (
@@ -149,79 +155,74 @@ const Assessment1 = () => {
       </div>
 
       {/* Internship Experience */}
-      <div className="flex flex-col">
-        <label className="mb-1 text-sm leading-5 text-white">Internship Experience</label>
-        <div className="flex flex-wrap">
+      <div className="flex flex-col w-full">
+        <label className="mb-1 text-pure-greys-100 font-bold text-lg">Internship Experience</label>
+        <div className="flex space-x-4">
           {yesNoOptions.map((option) => (
-            <label key={option.value} className="mr-4 flex items-center text-white">
+            <label key={option.value} className="flex cursor-pointer items-center space-x-2">
               <input
                 type="radio"
                 name="internship"
                 value={option.value}
                 checked={formData.internship === option.value}
                 onChange={handleOnChange}
-                className="mr-2"
+                className=" focus:ring-0 focus:ring-offset-0 checked:bg-yellow-500"
               />
-              {option.label}
+              <span>{option.label}</span>
             </label>
           ))}
         </div>
       </div>
 
       {/* Certificates */}
-      <div className="flex flex-col">
-        <label className="mb-1 text-sm leading-5 text-white">Certificates</label>
-        <div className="flex flex-wrap">
+      <div className="flex flex-col w-full">
+        <label className="mb-1 text-pure-greys-100 font-bold text-lg">Certificates</label>
+        <div className="flex space-x-4">
           {yesNoOptions.map((option) => (
-            <label key={option.value} className="mr-4 flex items-center text-white">
+            <label key={option.value} className="flex cursor-pointer items-center space-x-2">
               <input
                 type="radio"
                 name="certificates"
                 value={option.value}
                 checked={formData.certificates === option.value}
                 onChange={handleOnChange}
-                className="mr-2"
+                className=" focus:ring-0 focus:ring-offset-0 checked:bg-yellow-500"
               />
-              {option.label}
+              <span>{option.label}</span>
             </label>
           ))}
         </div>
       </div>
 
       {/* Leadership Experience */}
-      <div className="flex flex-col">
-        <label className="mb-1 text-sm leading-5 text-white">Leadership Experience</label>
-        <div className="flex flex-wrap">
+      <div className="flex flex-col w-full">
+        <label className="mb-1 text-pure-greys-100 font-bold text-lg">Leadership Experience</label>
+        <div className="flex space-x-4">
           {yesNoOptions.map((option) => (
-            <label key={option.value} className="mr-4 flex items-center text-white">
+            <label key={option.value} className="flex cursor-pointer items-center space-x-2">
               <input
                 type="radio"
                 name="leadership"
                 value={option.value}
                 checked={formData.leadership === option.value}
                 onChange={handleOnChange}
-                className="mr-2"
+                className=" focus:ring-0 cursor-pointer focus:ring-offset-0 checked:bg-yellow-500"
               />
-              {option.label}
+              <span>{option.label}</span>
             </label>
           ))}
         </div>
       </div>
 
-      <div className="flex justify-end gap-2">
+      <div className="flex justify-end space-x-4 mt-4">
         <button
           type="button"
           onClick={() => navigate('/')}
-          className="cursor-pointer rounded-md bg-gray-700 py-2 px-5 font-semibold text-white"
+          className="px-4 py-2  rounded-md bg-gray-700 hover:bg-gray-500 text-white"
         >
           Cancel
         </button>
-        <button
-          type="submit"
-          className="cursor-pointer rounded-md border py-2 px-5 border-yellow-50 bg-yellow-50"
-        >
-          Next
-        </button>
+        <IconBtn type="submit" text="Next" />
       </div>
     </form>
   );
